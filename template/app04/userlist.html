@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table border='1'>
+		{% for line in result %}
+		<tr>
+			<td>{{line.project}}</td>
+			<td>{{line.svndir}}</td>
+			<td>{{line.new_svn_version}}</td>
+			<td>{{line.old_svn_version}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<span>{{ List }}</span>
+
+<br>
+<br>
+	<div class="chat-message well">
+         <lable>项目名称</lable><br>
+		<select style="width: 500px;" id='update_select'>
+        {% for i in List %}
+	       <option id='project_web_project'>{{ i }}</option>
+	    {% endfor %}
+		</select>
+	</div>
+	   <div class="chat-message well">
+         <lable>svn地址</lable><br>
+		<select style="width: 500px;" id='update_select' ">
+        {% for k in listdir %}
+	       <option id='project_svn_dir'>{{ k }}</option>
+	    {% endfor %}
+		</select>
+     </div>
+      <div class="chat-message well">
+         <lable>svn地址2</lable><br>
+	   	<select style="width: 500px;" id='update_select' ">
+	       <option id='list_mysql_svndir'></option>
+		</select>
+     </div>
+	   
+	   
+	<script src='/static/js/upload/jquery.js'></script>
+	<script type='text/javascript'>
+	    $(document).ready(function() {
+
+	        //绑定下拉框change事件，当下来框改变时调用 SelectChange()方法
+	        $("#update_select").change(function() { 
+	        	SelectChange();
+	        	}); 
+	        })
+
+			function SelectChange() {
+	        //获取下拉框选中项的text属性值
+	        var selectText = $("#update_select").find("option:selected").text();; 
+	           $.ajax({
+	            	url:'/app04/userlist/',
+	            	type:'POST',
+	            	data:{selectText:selectText},
+	        		success:function(arg){
+	        			var obj = jQuery.parseJSON(arg);
+	        			console.log(arg);
+	        			console.log(obj.msg);
+	        			console.log(obj.list_selectText[0]);
+	        			console.log('sucess');
+	        			console.log(obj.list_mysql_svndir[0]);
+	        			$('#list_mysql_svndir').html(obj.list_mysql_svndir[0]);
+	        		},
+	        		error:function(){
+	        			console.log('error')
+	        		}
+	            })
+	        
+	        console.log(selectText);       
+	            //alert(selectText);
+			}
+
+	function Get_project (){
+    	var temp = $('#project_update_project').val();
+    	$.ajax({
+    		url:'/app04/ajax/',
+    		type:'POST',
+    		data:{dat:temp},
+    		success:function(arg){
+    			var obj = jQuery.parseJSON(arg);
+    			console.log(arg);
+    			console.log('sucess');
+    			console.log(obj.msg);
+    			console.log(obj.version_num)
+    			console.log(obj.result)
+    			//$('#List').val(obj.version_num);
+
+    			$('#update_svn_get_log').html(obj.version_num);
+    			$('#update_svn_get1').val(obj.version_num);
+    			
+    			//$('#p_result').html(obj.result);
+    			
+    		},
+    		error:function(){
+    			console.log('error')
+    		}
+    	});
+    }   
+ </script>
+	
+</body>
+</html>

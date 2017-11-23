@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+       
+	<form action="/app04/upload/" Method="POST">
+	    <input name="rev_num_old" value="item.svnreversion" /> <br />
+		<input name="rev_num_new" placeholder="请输入需要更新的svn版本号" /> <br /> 
+		<input name="up_url" placeholder="请输入svn的管理地址" />
+	    <input type="submit" value="提交版本号和svn地址" /> <br />
+	    </form>
+
+       	<form action="/app04/tar/" Method="POST">
+	    <input type="submit" value="打包" /> <br />
+	    </form>
+	    <form action="/app04/loaddir/" Method="POST">
+	    <input name="load_dir" placeholder="/data/cmdb/src" />
+	    <input type="submit" value="上传代码至指定路径" /> <br />
+	    </form>
+	    <span>{{ status }}</span><br />
+	    <span>{{ diff }}</span><br />
+	    <span>{{ status2 }}</span><br />
+	    <span>{{ status3 }}</span><br />
+	
+</body>
+</html>
